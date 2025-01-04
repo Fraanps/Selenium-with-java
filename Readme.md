@@ -1,8 +1,8 @@
-# Projeto de Aprendizado do Selenium com Java
+# Projeto de Aprendizado do Selenium com Java 📜
 
-Este repositório foi criado com o objetivo de praticar e aprender os conceitos básicos da ferramenta **Selenium** utilizando a linguagem **Java**. Ele não representa um projeto de produção, mas sim um ambiente para explorar funcionalidades essenciais do Selenium, como:
+Este repositório foi criado com o objetivo de praticar e aprender os conceitos básicos da ferramenta **Selenium** utilizando a linguagem **Java**. Ele representa um ambiente para explorar funcionalidades essenciais do Selenium, como:
 
-- Localização de elementos na página (XPath, CSS Selectors, etc.).
+- Localização de elementos na página (ID, Classes, XPath, CSS Selectors...).
 - Interações com elementos (cliques, preenchimento de formulários, seleção de opções em dropdowns, etc.).
 - Validação de comportamentos e estados de elementos.
 - Implementação do padrão **Page Object Model (POM)** para organização do código.
@@ -19,7 +19,7 @@ Este repositório foi criado com o objetivo de praticar e aprender os conceitos 
 - **Java:** Linguagem de programação principal.
 - **Selenium WebDriver:** Ferramenta para automação de navegadores.
 - **Maven:** Gerenciador de dependências e construção do projeto.
-- **JUnit:** Framework de testes para escrita e execução dos casos de teste (opcional).
+- **JUnit:** Framework de testes para escrita e execução dos casos de teste.
 
 ## Estrutura do Projeto
 
@@ -49,7 +49,7 @@ projeto-selenium-java/
 2. **Configure o Ambiente:**
     - Certifique-se de ter o **Java JDK** instalado.
     - Instale o **Maven**.
-    - Baixe o driver do navegador apropriado (ex.: ChromeDriver para Google Chrome) e coloque-o no PATH do sistema.
+    - Baixe o driver do navegador apropriado (ex.: GeckoDriver para Firefox) e coloque-o no PATH do sistema.
 
 3. **Instale as Dependências:**
 
