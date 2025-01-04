@@ -1,6 +1,6 @@
 package br.com.fps.portfolio.campoTreinamento;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -11,9 +11,9 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public class DropdownsTests {
+public class DropdownsTest {
   @Test
-  public void testDropdown() {
+  public void basicDropdown() {
     WebDriver driver = new FirefoxDriver();
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
@@ -24,12 +24,12 @@ public class DropdownsTests {
     //drop.selectByValue("especializacao");
     drop.selectByVisibleText("Doutorado"); // recomendado, pois é o que o usuário vai selecionar
     String text = drop.getFirstSelectedOption().getText();
-    Assert.assertEquals("Doutorado", text);
+    Assertions.assertEquals("Doutorado", text);
     driver.quit();
   }
 
   @Test
-  public void testVerificarValoresDropdown() {
+  public void verificarValoresDropdown() {
     WebDriver driver = new FirefoxDriver();
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
@@ -39,7 +39,7 @@ public class DropdownsTests {
 
     List<WebElement> optionsDrop = drop.getOptions();
 
-    Assert.assertEquals(8, optionsDrop.size()); // verificando o tamanho do drop
+    Assertions.assertEquals(8, optionsDrop.size()); // verificando o tamanho do drop
 
     // verificando se existe uma determinada opção no dropdown
     boolean encontrou = false;
@@ -49,12 +49,12 @@ public class DropdownsTests {
         break;
       }
     }
-    Assert.assertTrue(encontrou);
+    Assertions.assertTrue(encontrou);
     driver.quit();
   }
 
   @Test
-  public void testDropdownMultiplaEscolha() {
+  public void dropdownMultiplaEscolha() {
     WebDriver driver = new FirefoxDriver();
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
@@ -69,12 +69,12 @@ public class DropdownsTests {
 
 
     List<WebElement> allSelectedOptions = drop.getAllSelectedOptions();
-    Assert.assertEquals(3, allSelectedOptions.size());
+    Assertions.assertEquals(3, allSelectedOptions.size());
 
     // desmarcando no dropdown
     drop.deselectByVisibleText("O que eh esporte?");
     allSelectedOptions = drop.getAllSelectedOptions();
-    Assert.assertEquals(2, allSelectedOptions.size());
+    Assertions.assertEquals(2, allSelectedOptions.size());
     driver.quit();
 
 
