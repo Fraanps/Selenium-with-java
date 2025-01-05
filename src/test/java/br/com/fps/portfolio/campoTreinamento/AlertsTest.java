@@ -57,7 +57,7 @@ public class AlertsTest {
     Alert alerta = driver.switchTo().alert();
     alerta.dismiss();
     Assertions.assertEquals("Negado", alerta.getText() );
-    alerta.dismiss();
+    alerta.accept();
     driver.quit();
 
   }
@@ -69,19 +69,15 @@ public class AlertsTest {
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
 
     driver.findElement(By.id("prompt")).click();
-    Alert alerta = driver.switchTo().alert();
-    Assertions.assertEquals("Digite um numero", alerta.getText() );
+    Alert alerta2 = driver.switchTo().alert();
+    Assertions.assertEquals("Digite um numero", alerta2.getText() );
+    alerta2.sendKeys("12");
+    alerta2.accept();
+    Assertions.assertEquals("Era 12?", alerta2.getText() );
+    alerta2.accept();
+    Assertions.assertEquals(":D", alerta2.getText() );
 
-    String textPrompt = "12";
-    alerta.sendKeys(textPrompt);
-    alerta.accept();
-    Assertions.assertEquals("Era " + textPrompt + "?", alerta.getText() );
-    alerta.accept();
-    Assertions.assertEquals(":D", alerta.getText() );
-
-    alerta.accept();
-
-
+    alerta2.accept();
     driver.quit();
 
   }
@@ -99,9 +95,9 @@ public class AlertsTest {
     Assertions.assertEquals("Era null?", alerta.getText() );
     alerta.dismiss();
     Assertions.assertEquals(":(", alerta.getText() );
-
-    alerta.dismiss();
+    alerta.accept();
     driver.quit();
 
   }
+
 }
