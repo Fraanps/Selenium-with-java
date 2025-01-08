@@ -1,6 +1,8 @@
 package br.com.fps.portfolio.campoTreinamento;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -12,189 +14,129 @@ public class RegrasDeNegocioTest {
 
   /**
    * Campos com regras:
-   * nome, sobrenome, sexo devem ser preenchidos
-   * não posso marcar a comida favorita carne e vegetariano
+   * nome, sobrenome, sexo devem ser preenchidos;
+   * não posso marcar a comida favorita carne e vegetariano;
    * não posso marcar algum esporte e tbm a opção "o que é esporte?"
    * */
 
-  @Test
-  public void cadastroFormularioComNomeObrigatorio() {
-    WebDriver driver = new FirefoxDriver();
+  private WebDriver driver;
+  private DSL dsl;
+
+  @BeforeEach
+  public void initDriver(){
+    driver = new FirefoxDriver();
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
+    dsl = new DSL(driver);
+  }
 
-    //driver.findElement(By.id("elementosForm:nome")).sendKeys("Francilene");
-    driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Silva");
-    driver.findElement(By.id("elementosForm:sexo:1")).click();
-    driver.findElement(By.id("elementosForm:comidaFavorita:2")).click();
-
-    // dropdown escolaridade
-    WebElement element;
-    element = driver.findElement(By.id("elementosForm:escolaridade"));
-    Select drop = new Select(element);
-    drop.selectByVisibleText("Superior");
-
-    // dropdown esports
-    element = driver.findElement(By.id("elementosForm:esportes"));
-    Select drop2 = new Select(element);
-    drop2.selectByVisibleText("Corrida");
-    drop2.selectByVisibleText("Natacao");
-    driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Sem sugestões para o formulário");
-
-    driver.findElement(By.id("elementosForm:cadastrar")).click();
-
-    // mudando foco para o alerta de erro
-    Alert alerta = driver.switchTo().alert();
-    String textoAlerta = alerta.getText();
-    Assertions.assertEquals("Nome eh obrigatorio", alerta.getText() );
-    alerta.accept();
+  @AfterEach
+  public void quitDriver(){
     driver.quit();
+  }
+
+  @Test
+  public void cadastroFormularioComNomeObrigatorio() {
+
+    dsl.escreve("elementosForm:sobrenome", "Silva");
+    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
+    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
+
+    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
+
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
+
+    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
+    dsl.clicarBotao("elementosForm:cadastrar");
+
+    String textAlerta = dsl.getTextAlert();
+    Assertions.assertEquals("Nome eh obrigatorio", textAlerta );
   }
 
   @Test
   public void cadastroFormularioComSobrenomeObrigatorio() {
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
+    dsl.escreve("elementosForm:nome", "Francilene");
+    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
+    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
 
-    driver.findElement(By.id("elementosForm:nome")).sendKeys("Francilene");
-    driver.findElement(By.id("elementosForm:sexo:1")).click();
-    driver.findElement(By.id("elementosForm:comidaFavorita:2")).click();
+    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
 
-    // dropdown escolaridade
-    WebElement element;
-    element = driver.findElement(By.id("elementosForm:escolaridade"));
-    Select drop = new Select(element);
-    drop.selectByVisibleText("Superior");
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
 
-    // dropdown esports
-    element = driver.findElement(By.id("elementosForm:esportes"));
-    Select drop2 = new Select(element);
-    drop2.selectByVisibleText("Corrida");
-    drop2.selectByVisibleText("Natacao");
-    driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Sem sugestões para o formulário");
+    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
+    dsl.clicarBotao("elementosForm:cadastrar");
 
-    driver.findElement(By.id("elementosForm:cadastrar")).click();
+    String textAlerta = dsl.getTextAlert();
+    Assertions.assertEquals("Sobrenome eh obrigatorio", textAlerta );
 
-    // mudando foco para o alerta de erro
-    Alert alerta = driver.switchTo().alert();
-    String textoAlerta = alerta.getText();
-    Assertions.assertEquals("Sobrenome eh obrigatorio", alerta.getText() );
-    alerta.accept();
-
-    driver.quit();
   }
 
   @Test
   public void cadastroFormularioComSexoEhObrigatorio() {
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
 
-    driver.findElement(By.id("elementosForm:nome")).sendKeys("Francilene");
-    driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Silva");
+    dsl.escreve("elementosForm:nome","Francilene");
+    dsl.escreve("elementosForm:sobrenome", "Silva");
 
     //checkbox comida favorita
-    driver.findElement(By.id("elementosForm:comidaFavorita:0")).click();
+    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
 
-    // dropdown escolaridade
-    WebElement element;
-    element = driver.findElement(By.id("elementosForm:escolaridade"));
-    Select drop = new Select(element);
-    drop.selectByVisibleText("Superior");
+    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
 
-    // dropdown esports
-    element = driver.findElement(By.id("elementosForm:esportes"));
-    Select drop2 = new Select(element);
-    drop2.selectByVisibleText("Corrida");
-    drop2.selectByVisibleText("Natacao");
-    driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Sem sugestões para o formulário");
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
 
-    driver.findElement(By.id("elementosForm:cadastrar")).click();
+    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
+    dsl.clicarBotao("elementosForm:cadastrar");
 
-    // mudando foco para o alerta de erro
-    Alert alerta = driver.switchTo().alert();
-    String textoAlerta = alerta.getText();
-    Assertions.assertEquals("Sexo eh obrigatorio", alerta.getText() );
-    alerta.accept();
-
-    driver.quit();
+    String textAlerta = dsl.getTextAlert();
+    Assertions.assertEquals("Sexo eh obrigatorio", textAlerta );
   }
 
   @Test
   public void cadastroFormularioComValidacaoComidaFavorita() {
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
 
-    driver.findElement(By.id("elementosForm:nome")).sendKeys("Francilene");
-    driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Silva");
-    driver.findElement(By.id("elementosForm:sexo:1")).click();
+    dsl.escreve("elementosForm:nome","Francilene");
+    dsl.escreve("elementosForm:sobrenome", "Silva");
+    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
 
-    driver.findElement(By.id("elementosForm:comidaFavorita:1")).click();
-    driver.findElement(By.id("elementosForm:comidaFavorita:3")).click();
+    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:1");
+    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:3");
 
-    // dropdown escolaridade
-    WebElement element;
-    element = driver.findElement(By.id("elementosForm:escolaridade"));
-    Select drop = new Select(element);
-    drop.selectByVisibleText("Superior");
+    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
 
-    // dropdown esports
-    element = driver.findElement(By.id("elementosForm:esportes"));
-    Select drop2 = new Select(element);
-    drop2.selectByVisibleText("Corrida");
-    drop2.selectByVisibleText("Natacao");
-    driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Sem sugestões para o formulário");
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
 
-    driver.findElement(By.id("elementosForm:cadastrar")).click();
+    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
+    dsl.clicarBotao("elementosForm:cadastrar");
 
-    // mudando foco para o alerta de erro
-    Alert alerta = driver.switchTo().alert();
-    String textoAlerta = alerta.getText();
-    Assertions.assertEquals("Tem certeza que voce eh vegetariano?", alerta.getText() );
-    alerta.accept();
+    String textAlerta = dsl.getTextAlert();
+    Assertions.assertEquals("Tem certeza que voce eh vegetariano?", textAlerta );
 
-    driver.quit();
   }
 
   @Test
   public void cadastroFormularioComValidacaoEsporte() {
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
+    dsl.escreve("elementosForm:nome","Francilene");
+    dsl.escreve("elementosForm:sobrenome", "Silva");
+    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
 
-    driver.findElement(By.id("elementosForm:nome")).sendKeys("Francilene");
-    driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Silva");
-    driver.findElement(By.id("elementosForm:sexo:1")).click();
+    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:1");
 
-    //checkbox comida favorita
-    driver.findElement(By.id("elementosForm:comidaFavorita:0")).click(); // marcando carne
+    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
 
-    // dropdown escolaridade
-    WebElement element;
-    element = driver.findElement(By.id("elementosForm:escolaridade"));
-    Select drop = new Select(element);
-    drop.selectByVisibleText("Superior");
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
+    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "O que eh esporte?" );
 
-    // dropdown esports
-    element = driver.findElement(By.id("elementosForm:esportes"));
-    Select drop2 = new Select(element);
-    drop2.selectByVisibleText("Corrida");
-    drop2.selectByVisibleText("O que eh esporte?");
-    driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Sem sugestões para o formulário");
+    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
+    dsl.clicarBotao("elementosForm:cadastrar");
 
-    driver.findElement(By.id("elementosForm:cadastrar")).click();
+    String textAlerta = dsl.getTextAlert();
+    Assertions.assertEquals("Voce faz esporte ou nao?", textAlerta );
 
-    // mudando foco para o alerta de erro
-    Alert alerta = driver.switchTo().alert();
-    String textoAlerta = alerta.getText();
-    Assertions.assertEquals("Voce faz esporte ou nao?", alerta.getText() );
-    alerta.accept();
-
-    driver.quit();
   }
-
 
 }
 

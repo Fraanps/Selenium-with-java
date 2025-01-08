@@ -1,6 +1,8 @@
 package br.com.fps.portfolio.campoTreinamento;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -10,53 +12,45 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class OutrosElementosTest {
 
-  @Test
-  public void interagirComBotao(){
-    WebDriver driver = new FirefoxDriver();
+  private WebDriver driver;
+  private DSL dsl;
+
+  @BeforeEach
+  public void initDriver(){
+    driver = new FirefoxDriver();
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
+    dsl = new DSL(driver);
+  }
 
-    WebElement botao = driver.findElement(By.id("buttonSimple"));
-    botao.click();
-
-    Assertions.assertEquals("Obrigado!", botao.getAttribute("value"));
+  @AfterEach
+  public void quitDriver(){
     driver.quit();
+  }
+
+  @Test
+  public void interagirComBotao(){
+
+    dsl.clicarBotao("buttonSimple");
+    Assertions.assertEquals("Obrigado!",
+        dsl.obterValueElemento("buttonSimple"));
 
   }
 
   @Test
   public void interagirComLinks(){
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
-
-    driver.findElement(By.linkText("Voltar")).click();
-
-    WebElement element = driver.findElement(By.id("resultado"));
-    Assertions.assertEquals("Voltou!", element.getText());
-    driver.quit();
+    dsl.clicarLink("Voltar");
+    Assertions.assertEquals("Voltou!", dsl.obterTexto("resultado"));
   }
 
   @Test
   public void buscarTextosNaPagina(){
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
-
-    //Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Campo de Treinamento"));
-    Assertions.assertEquals("Campo de Treinamento", driver.findElement(By.tagName("h3")).getText());
-    driver.quit();
+    Assertions.assertEquals("Campo de Treinamento", dsl.obterTexto(By.tagName("h3")));
   }
 
   @Test
   public void interagirComSpan(){
-    WebDriver driver = new FirefoxDriver();
-    driver.manage().window().setSize(new Dimension(1200, 765));
-    driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
-
     Assertions.assertEquals("Cuidado onde clica, muitas armadilhas...",
-        driver.findElement(By.cssSelector("span[class=\"facilAchar\"]")).getText());
-
-    driver.quit();
+        dsl.obterTexto(By.cssSelector("span[class=\"facilAchar\"]")));
   }
 }
