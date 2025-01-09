@@ -36,10 +36,10 @@ public class FramesEJanelasTest {
 
     dsl.abrirFrame("frame1", "frameButton");
     dsl.swhitchAlert();
-    String textAlerta = dsl.getTextAlert();
+    String textAlerta = dsl.obterTextoAlerta();
     assertEquals("Frame OK!", textAlerta  );
     dsl.getTextoEaceitarAlerta();
-    dsl.retornarPaginaPrincipal();
+    dsl.sairFrame();
     dsl.escreve("elementosForm:nome", textAlerta);
     driver.quit();
   }

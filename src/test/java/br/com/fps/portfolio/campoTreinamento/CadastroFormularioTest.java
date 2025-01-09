@@ -4,10 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CadastroFormularioTest {
@@ -63,6 +65,15 @@ public class CadastroFormularioTest {
         () -> assertTrue(resultadoTexto.contains("Natacao Corrida")),
         () -> assertTrue(resultadoTexto.contains("Sem sugestões para o formulário"))
     );
+
+  }
+
+  @Test
+  public void textFieldDuplo(){
+    dsl.escreve(By.id("elementosForm:nome"), "Antonio");
+    assertEquals("Antonio",  dsl.obterValueElemento("elementosForm:nome"));
+    dsl.escreve(By.id("elementosForm:nome"), "Raimundo");
+    assertEquals("Raimundo", dsl.obterValueElemento("elementosForm:nome"));
 
   }
 }

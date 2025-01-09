@@ -19,6 +19,7 @@ public class DSL {
   }
 
   public void escreve(By by, String texto){
+    driver.findElement(by).clear();
     driver.findElement(by).sendKeys(texto);
   }
 
@@ -26,6 +27,10 @@ public class DSL {
   public void escreve(String idCampo, String texto){
      driver.findElement(By.id(idCampo)).sendKeys(texto);
    }
+
+  public void apagaTexto(String idCampo){
+    driver.findElement(By.id(idCampo)).clear();
+  }
 
    public void clicarRadioECheckbox(String idCampo){
      driver.findElement(By.id(idCampo)).click();
@@ -113,8 +118,6 @@ public class DSL {
     dropdown.deselectByVisibleText(opcao);
 //    allSelectedOptions = dropdown.getAllSelectedOptions();
 //    Assertions.assertEquals(2, allSelectedOptions.size());
-
-
   }
 
   // BOTOES
@@ -141,14 +144,6 @@ public class DSL {
     return obterTexto(By.id(idCampo));
   }
 
-  // FRAMES E JANELAS
-  public void abrirFrame(String nomeFrame, String idFrame) {
-    // mudando o foco para o frame
-    driver.switchTo().frame(nomeFrame);
-    // abre o frame
-    driver.findElement(By.id(idFrame)).click();
-  }
-
   // ALERTAS
   public void swhitchAlert(String ... msg) {
     Alert alertFrame = driver.switchTo().alert();
@@ -159,19 +154,19 @@ public class DSL {
     alerta.accept();
   }
 
-  public String getTextAlert(){
+  public String obterTextoAlerta(){
     Alert alerta = driver.switchTo().alert();
     return alerta.getText();
   }
 
-  public String getTextEaceitaAlerta(){
+  public String obterTextEaceitaAlerta(){
     Alert alert = driver.switchTo().alert();
     String textoAlerta = alert.getText();
     alert.accept();
     return textoAlerta;
   }
 
-  public String getTextEnegaAlerta(){
+  public String obterTextEnegaAlerta(){
     Alert alert = driver.switchTo().alert();
     String textoAlerta = alert.getText();
     alert.dismiss();
@@ -195,17 +190,33 @@ public class DSL {
     alert.sendKeys(texto);
   }
 
+  public void enviarTextoAlertaEAceita(String texto) {
+    Alert alert = driver.switchTo().alert();
+    alert.sendKeys(texto);
+    alert.accept();
+  }
 
 
 
 
+  // FRAMES E JANELAS
+  public void abrirFrame(String nomeFrame, String idFrame) {
+    // mudando o foco para o frame
+    driver.switchTo().frame(nomeFrame);
+    // abre o frame
+    driver.findElement(By.id(idFrame)).click();
+  }
 
-  public void retornarPaginaPrincipal(){
+  public void sairFrame(){
     driver.switchTo().defaultContent();
   }
 
   public String getJanelaAtual(){
     return driver.getWindowHandle();
+  }
+
+  public void trocarJanela(String id){
+    driver.switchTo().window(id);
   }
 
   public void abrirPopupSemNome(String id){
@@ -226,7 +237,6 @@ public class DSL {
   public void fecharPopUp() {
     driver.close();
   }
-
 
 
 }

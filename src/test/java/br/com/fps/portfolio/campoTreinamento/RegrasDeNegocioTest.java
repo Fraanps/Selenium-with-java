@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,7 +49,7 @@ public class RegrasDeNegocioTest {
     dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
     dsl.clicarBotao("elementosForm:cadastrar");
 
-    String textAlerta = dsl.getTextAlert();
+    String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Nome eh obrigatorio", textAlerta );
   }
 
@@ -68,7 +67,7 @@ public class RegrasDeNegocioTest {
     dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
     dsl.clicarBotao("elementosForm:cadastrar");
 
-    String textAlerta = dsl.getTextAlert();
+    String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Sobrenome eh obrigatorio", textAlerta );
 
   }
@@ -90,7 +89,7 @@ public class RegrasDeNegocioTest {
     dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
     dsl.clicarBotao("elementosForm:cadastrar");
 
-    String textAlerta = dsl.getTextAlert();
+    String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Sexo eh obrigatorio", textAlerta );
   }
 
@@ -112,7 +111,7 @@ public class RegrasDeNegocioTest {
     dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
     dsl.clicarBotao("elementosForm:cadastrar");
 
-    String textAlerta = dsl.getTextAlert();
+    String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Tem certeza que voce eh vegetariano?", textAlerta );
 
   }
@@ -133,7 +132,7 @@ public class RegrasDeNegocioTest {
     dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
     dsl.clicarBotao("elementosForm:cadastrar");
 
-    String textAlerta = dsl.getTextAlert();
+    String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Voce faz esporte ou nao?", textAlerta );
 
   }
