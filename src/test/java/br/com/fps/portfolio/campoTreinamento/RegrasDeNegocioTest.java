@@ -44,8 +44,7 @@ public class RegrasDeNegocioTest {
     page.setSobrenome("Silva");
     page.setSexoFeminino();
     page.setComidaFavoritaPizza();
-
-    page.setEscolaridadeSuperior();
+    page.setEscolaridade("Superior");
     page.setEsporte("Corrida", "Natacao");
 
     page.setDescricao("Sem sugestões para o formulário");
@@ -62,7 +61,7 @@ public class RegrasDeNegocioTest {
     page.setSexoFeminino();
     page.setComidaFavoritaPizza();
 
-    page.setEscolaridadeSuperior();
+    page.setEscolaridade("Superior");
     page.setEsporte("Corrida", "Natacao");
 
     page.setDescricao("Sem sugestões para o formulário");
@@ -80,7 +79,7 @@ public class RegrasDeNegocioTest {
     page.setSobrenome("Silva");
     page.setComidaFavoritaPizza();
 
-    page.setEscolaridadeSuperior();
+    page.setEscolaridade("Superior");
     page.setEsporte("Corrida", "Natacao");
 
     page.setDescricao("Sem sugestões para o formulário");
@@ -100,7 +99,7 @@ public class RegrasDeNegocioTest {
     page.setComidaFavoritaCarne();
     page.setComidaFavoritaVegetariano();
 
-    page.setEscolaridadeSuperior();
+    page.setEscolaridade("Superior");
     page.setEsporte("Corrida", "Natacao");
     page.setDescricao("Sem sugestões para o formulário");
     page.cadastrar();
@@ -112,12 +111,11 @@ public class RegrasDeNegocioTest {
 
   @Test
   public void cadastroFormularioComValidacaoEsporte() {
-
     page.setNome("Francilene");
     page.setSobrenome("Silva");
     page.setSexoFeminino();
     page.setComidaFavoritaPizza();
-    page.setEscolaridadeSuperior();
+    page.setEscolaridade("Superior");
 
     page.setEsporte("Corrida", "O que eh esporte?");
     page.setDescricao("Sem sugestões para o formulário");

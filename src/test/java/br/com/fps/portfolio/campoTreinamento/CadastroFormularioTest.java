@@ -40,7 +40,7 @@ public class CadastroFormularioTest {
     page.setSobrenome("Oliveira Santos");
     page.setSexoMasculino();
     page.setComidaFavoritaPizza();
-    page.setEscolaridadeSuperior();
+    page.setEscolaridade("Superior");
     page.setEsporte("Corrida", "Natacao");
     page.setDescricao("Sem sugestões para o formulário");
     page.cadastrar();

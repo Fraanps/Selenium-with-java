@@ -46,9 +46,13 @@ public class CampoTreinamentoPage {
   }
 
   // ESCOLARIDADE
-  public void setEscolaridadeSuperior(){
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior");
+  public void setEscolaridade(String escolaridade){
+    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", escolaridade);
   }
+
+//  public void setEscolaridade(String escolaridade){
+//    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", escolaridade);
+//  }
 
   // ESPORTES
   public void setEsporte(String... valores){
