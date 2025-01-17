@@ -16,6 +16,7 @@ public class CadastroFormularioTest {
 
   private WebDriver driver;
   private DSL dsl;
+  private CampoTreinamentoPage page;
 
   @BeforeEach
   public void initDriver(){
@@ -23,6 +24,7 @@ public class CadastroFormularioTest {
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
     dsl = new DSL(driver);
+    page = new CampoTreinamentoPage(driver);
   }
 
   @AfterEach
@@ -34,27 +36,16 @@ public class CadastroFormularioTest {
   @Test
   public void cadastroFormularioComSucesso() {
 
-    dsl.escreve("elementosForm:nome", "Antonio Francisco");
-    dsl.escreve("elementosForm:sobrenome", "Oliveira Santos");
+    page.setNome("Antonio Francisco");
+    page.setSobrenome("Oliveira Santos");
+    page.setSexoMasculino();
+    page.setComidaFavoritaPizza();
+    page.setEscolaridadeSuperior();
+    page.setEsporte("Corrida", "Natacao");
+    page.setDescricao("Sem sugestões para o formulário");
+    page.cadastrar();
 
-    dsl.clicarRadioECheckbox("elementosForm:sexo:0");
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
-
-    // dropdown escolaridade
-
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior");
-
-    // dropdown esports
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida");
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao");
-
-    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário" );
-
-    dsl.clicarBotao("elementosForm:cadastrar");
-
-
-    String resultadoTexto = dsl.obterTexto("resultado");
-
+    String resultadoTexto = page.obterResultadoCadastro();
     Assertions.assertAll(
         () -> assertTrue(resultadoTexto.contains("Cadastrado!")),
         () -> assertTrue(resultadoTexto.contains("Antonio Francisco")),
@@ -70,9 +61,9 @@ public class CadastroFormularioTest {
 
   @Test
   public void textFieldDuplo(){
-    dsl.escreve(By.id("elementosForm:nome"), "Antonio");
+    page.setNome("Antonio");
     assertEquals("Antonio",  dsl.obterValueElemento("elementosForm:nome"));
-    dsl.escreve(By.id("elementosForm:nome"), "Raimundo");
+    page.setNome("Raimundo");
     assertEquals("Raimundo", dsl.obterValueElemento("elementosForm:nome"));
 
   }

@@ -25,7 +25,8 @@ public class DSL {
 
   // metodos text Area e Radio Button
   public void escreve(String idCampo, String texto){
-     driver.findElement(By.id(idCampo)).sendKeys(texto);
+    driver.findElement(By.id(idCampo)).clear();
+    driver.findElement(By.id(idCampo)).sendKeys(texto);
    }
 
   public void apagaTexto(String idCampo){

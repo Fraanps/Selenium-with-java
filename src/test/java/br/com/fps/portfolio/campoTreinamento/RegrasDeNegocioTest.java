@@ -20,6 +20,8 @@ public class RegrasDeNegocioTest {
 
   private WebDriver driver;
   private DSL dsl;
+  private CampoTreinamentoPage page;
+
 
   @BeforeEach
   public void initDriver(){
@@ -27,6 +29,8 @@ public class RegrasDeNegocioTest {
     driver.manage().window().setSize(new Dimension(1200, 765));
     driver.get("file:" + System.getProperty("user.dir") + "/src/test/resources/componentes.html");
     dsl = new DSL(driver);
+    page = new CampoTreinamentoPage(driver);
+
   }
 
   @AfterEach
@@ -37,17 +41,15 @@ public class RegrasDeNegocioTest {
   @Test
   public void cadastroFormularioComNomeObrigatorio() {
 
-    dsl.escreve("elementosForm:sobrenome", "Silva");
-    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
+    page.setSobrenome("Silva");
+    page.setSexoFeminino();
+    page.setComidaFavoritaPizza();
 
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
+    page.setEscolaridadeSuperior();
+    page.setEsporte("Corrida", "Natacao");
 
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
-
-    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
-    dsl.clicarBotao("elementosForm:cadastrar");
+    page.setDescricao("Sem sugestões para o formulário");
+    page.cadastrar();
 
     String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Nome eh obrigatorio", textAlerta );
@@ -55,17 +57,16 @@ public class RegrasDeNegocioTest {
 
   @Test
   public void cadastroFormularioComSobrenomeObrigatorio() {
-    dsl.escreve("elementosForm:nome", "Francilene");
-    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
 
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
+    page.setNome("Francilene");
+    page.setSexoFeminino();
+    page.setComidaFavoritaPizza();
 
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
+    page.setEscolaridadeSuperior();
+    page.setEsporte("Corrida", "Natacao");
 
-    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
-    dsl.clicarBotao("elementosForm:cadastrar");
+    page.setDescricao("Sem sugestões para o formulário");
+    page.cadastrar();
 
     String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Sobrenome eh obrigatorio", textAlerta );
@@ -75,19 +76,15 @@ public class RegrasDeNegocioTest {
   @Test
   public void cadastroFormularioComSexoEhObrigatorio() {
 
-    dsl.escreve("elementosForm:nome","Francilene");
-    dsl.escreve("elementosForm:sobrenome", "Silva");
+    page.setNome("Francilene");
+    page.setSobrenome("Silva");
+    page.setComidaFavoritaPizza();
 
-    //checkbox comida favorita
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:2");
+    page.setEscolaridadeSuperior();
+    page.setEsporte("Corrida", "Natacao");
 
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
-
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
-
-    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
-    dsl.clicarBotao("elementosForm:cadastrar");
+    page.setDescricao("Sem sugestões para o formulário");
+    page.cadastrar();
 
     String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Sexo eh obrigatorio", textAlerta );
@@ -96,20 +93,17 @@ public class RegrasDeNegocioTest {
   @Test
   public void cadastroFormularioComValidacaoComidaFavorita() {
 
-    dsl.escreve("elementosForm:nome","Francilene");
-    dsl.escreve("elementosForm:sobrenome", "Silva");
-    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
+    page.setNome("Francilene");
+    page.setSobrenome("Silva");
+    page.setSexoFeminino();
 
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:1");
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:3");
+    page.setComidaFavoritaCarne();
+    page.setComidaFavoritaVegetariano();
 
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
-
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Natacao" );
-
-    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
-    dsl.clicarBotao("elementosForm:cadastrar");
+    page.setEscolaridadeSuperior();
+    page.setEsporte("Corrida", "Natacao");
+    page.setDescricao("Sem sugestões para o formulário");
+    page.cadastrar();
 
     String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Tem certeza que voce eh vegetariano?", textAlerta );
@@ -118,19 +112,16 @@ public class RegrasDeNegocioTest {
 
   @Test
   public void cadastroFormularioComValidacaoEsporte() {
-    dsl.escreve("elementosForm:nome","Francilene");
-    dsl.escreve("elementosForm:sobrenome", "Silva");
-    dsl.clicarRadioECheckbox("elementosForm:sexo:1");
 
-    dsl.clicarRadioECheckbox("elementosForm:comidaFavorita:1");
+    page.setNome("Francilene");
+    page.setSobrenome("Silva");
+    page.setSexoFeminino();
+    page.setComidaFavoritaPizza();
+    page.setEscolaridadeSuperior();
 
-    dsl.selecionaDropdownVisibleText("elementosForm:escolaridade", "Superior" );
-
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "Corrida" );
-    dsl.selecionaDropdownVisibleText("elementosForm:esportes", "O que eh esporte?" );
-
-    dsl.escreve("elementosForm:sugestoes", "Sem sugestões para o formulário");
-    dsl.clicarBotao("elementosForm:cadastrar");
+    page.setEsporte("Corrida", "O que eh esporte?");
+    page.setDescricao("Sem sugestões para o formulário");
+    page.cadastrar();
 
     String textAlerta = dsl.obterTextoAlerta();
     Assertions.assertEquals("Voce faz esporte ou nao?", textAlerta );
